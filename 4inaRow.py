@@ -11,7 +11,7 @@ from _datetime import datetime
 import pandas as pd
 
 
-
+#tsrt
 def printColoredString(s):
     #trennen alle zeichen des strings und schreibe sie in eine liste
     x=list(s)
