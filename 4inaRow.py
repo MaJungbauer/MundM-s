@@ -11,6 +11,7 @@ import functions
 import player
 import computer
 
+
 if __name__ == '__main__':
     #pfad fuer data
     date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
