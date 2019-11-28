@@ -2,7 +2,7 @@
 """
 Created on Thu Oct 31 22:27:12 2019
 
-@author: martin
+@author: marti
 """
 
 import getpass
@@ -18,24 +18,22 @@ if __name__ == '__main__':
     date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
     user = getpass. getuser()
     pfad = 'C:\\Python_scripts\\4Gewinnt\\4inarow_' + user + '_' + date + '.csv'
+    #Es kann gewährt werden, ob player1 oder player2 manuell eingegeben wird, oder ob der der Computer spielen soll
     i = input('Wer ist Spieler 1? (1-->Computer, 2-->Player)  ')
     if int(i) == 1:
         comp1 = True
+        levComp1 = int(input('Mit welchem Level soll der Compuer spielen? (1-->leicht, 2-->schwer)  '))
     elif int(i) == 2:
         comp1 = False
     i = input('Wer ist Spieler 2? (1-->Computer, 2-->Player)  ')
     if int(i) == 1:
         comp2 = True
+        levComp2 = int(input('Mit welchem Level soll der Compuer spielen? (1-->leicht, 2-->schwer)  '))
     elif int(i) == 2:
         comp2 = False
-    if comp1:
-        if comp2:
-            anzahlSpiele = 1000
-        else:
-            anzahlSpiele = 1
-    else:
-        anzahlSpiele = 1
-    for spielNr in range(0, anzahlSpiele):
+    #Es kann festgelegt werden, wieviel Spiele hintereinander gespielt werden sollen
+    anzahlSpiele = input('Wieviel Spiele sollen gespielt werden?  ')
+    for spielNr in range(0, int(anzahlSpiele)):
         spielID = str(datetime.now())
         #spielfeld ist eine liste mit sieben einzelnen listen, jede fuer eine spalte
         #die spalten im spielfeld werden pro zug mit 1 oder 2 gefuellt
@@ -46,14 +44,15 @@ if __name__ == '__main__':
             #player1 faengt an 
             #--> jede gerade zahl ist ein zug von player1, eine ungerade ein zug von player2
             player1 = True if (zugNummer % 2) == 0 else False
+            #wenn player1 computer ist zieht der computer selbstständig, ansonsten wird ein manueller zug abgefragt
             if player1:
                 if comp1:
-                    zug = computer.zug_bestimmen(spielfeld, player1)
+                    zug = computer.zug_bestimmen(spielfeld, player1, levComp1)
                 elif not comp1:
                     zug = player.zug_bestimmen(spielfeld, player1)
             elif not player1:
                 if comp2:
-                    zug = computer.zug_bestimmen(spielfeld, player1)
+                    zug = computer.zug_bestimmen(spielfeld, player1, levComp2)
                 elif not comp2:
                     zug = player.zug_bestimmen(spielfeld, player1)
             
