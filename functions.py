@@ -6,15 +6,6 @@ Created on Sat Nov  9 16:41:11 2019
 
 """
 
-
-import pandas as pd
-import os
-
-
-
-    
-
-    
 #zeichnet das spielfald auf der konsole
 def paintSpielfeld(spielfeld):
     str1 = ''
@@ -136,19 +127,7 @@ def print_format_table():
 print_format_table()
 '''
 
-def zugWegschreiben(pfad, zugNummer, zug, spielfeld, player1):
-    #schreibe den Datensatz in einen dataFrame
-    data = pd.DataFrame()
-    data['zugNummer'] = [zugNummer]
-    data['zug'] = [zug]
-    data['spielfeld'] = [spielfeld]
-    data['player1'] = [player1]
-    #wenn es schon eine.csv datei gibt, haenge den datensatz an diese datei
-    if os.path.exists(pfad):
-        data.to_csv(path_or_buf=pfad,index=False, sep=';', header=False, mode='a')
-    #wenn es noch keine .csv datei gibt, erstelle eine neue
-    else:
-        data.to_csv(path_or_buf=pfad,index=False, sep=';', header=True, mode='w')
+
 
 def printColoredString(s):
     #trennen alle zeichen des strings und schreibe sie in eine liste
