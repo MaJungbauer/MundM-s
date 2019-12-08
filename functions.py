@@ -5,6 +5,20 @@ Created on Sat Nov  9 16:41:11 2019
 @author: marti
 
 """
+import getpass
+import os
+from _datetime import datetime
+
+#erstellt den Ordner fuer die doku nur wenn der ordner noch nicht existiert
+def ertelleDirectory():
+    user = getpass.getuser()
+    directory = 'C:\\Users\\' + user + '\\OneDrive\\Desktop\\4inarowDoku'
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+    date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
+    path = directory + '\\4inarow_' + user + '_' + date + '.csv'
+    
+    return path
 
 #zeichnet das spielfald auf der konsole
 def paintSpielfeld(spielfeld):

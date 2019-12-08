@@ -5,7 +5,8 @@ Created on Thu Oct 31 22:27:12 2019
 @author: marti
 """
 
-import getpass
+#import os
+#import getpass
 from _datetime import datetime
 import functions
 import player
@@ -15,9 +16,14 @@ import documentation
 
 if __name__ == '__main__':
     #pfad fuer data
-    date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
-    user = getpass. getuser()
-    pfad = 'C:\\Python_scripts\\4Gewinnt\\4inarow_' + user + '_' + date + '.csv'
+    #date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
+    #user = getpass. getuser()
+    #if not os.path.isdir('C\\Desktop\\4inarowDoku):
+        
+    #pfad = 'C:\\Python_scripts\\4Gewinnt\\4inarow_' + user + '_' + date + '.csv'
+    pfad = functions.ertelleDirectory()
+    
+    
     #Es kann gewährt werden, ob player1 oder player2 manuell eingegeben wird, oder ob der der Computer spielen soll
     i = input('Wer ist Spieler 1? (1-->Computer, 2-->Player)  ')
     if int(i) == 1:
