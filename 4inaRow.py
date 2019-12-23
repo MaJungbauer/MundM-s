@@ -5,8 +5,6 @@ Created on Thu Oct 31 22:27:12 2019
 @author: marti
 """
 
-#import os
-#import getpass
 from _datetime import datetime
 import functions
 import player
@@ -16,14 +14,7 @@ import documentation
 
 if __name__ == '__main__':
     #pfad fuer data
-    #date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
-    #user = getpass. getuser()
-    #if not os.path.isdir('C\\Desktop\\4inarowDoku):
-        
-    #pfad = 'C:\\Python_scripts\\4Gewinnt\\4inarow_' + user + '_' + date + '.csv'
     pfad = functions.ertelleDirectory()
-    
-    
     #Es kann gewährt werden, ob player1 oder player2 manuell eingegeben wird, oder ob der der Computer spielen soll
     i = input('Wer ist Spieler 1? (1-->Computer, 2-->Player)  ')
     if int(i) == 1:
@@ -63,11 +54,11 @@ if __name__ == '__main__':
                     zug = player.zug_bestimmen(spielfeld, player1)
             
             #soll der zug doumentiert werden
-            doc = documentation.zugDokumentieren(doc, spielID, zugNummer, zug, spielfeld, 1 if player1 else 2)
+            doc = documentation.zugDokumentieren(doc, spielID, zugNummer, zug, functions.spielfeld_auffuellen(spielfeld)[0], 1 if player1 else 2)
             #wenn der zug gueltig ist, wird er auf dem spielfeld hinzugefuegt
             spielfeld = functions.ziehen(spielfeld, zug, player1)
             #nach jedem zug wird das spielfeld auf der konsole ausgegeben
-            functions.paintSpielfeld(spielfeld)
+            #functions.paintSpielfeld(spielfeld)
             #nach jedem zug wird geprueft, ob es einen gewinner gibt
             gewinner = functions.pruefeGewinner(spielfeld, player1)
             #wenn es einen gewinner gibt, wird die Info ausgegeben, es erfolgen dann keine weiteren zuege
@@ -81,6 +72,7 @@ if __name__ == '__main__':
             doc = documentation.siegerDokumentieren(doc, 0)
         #Spiel dokumentieren
         documentation.spielDokumentieren(doc, pfad)
+        print('SpielNr: ' + str(spielNr))
         
         
         
