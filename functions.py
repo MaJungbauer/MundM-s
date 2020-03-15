@@ -5,20 +5,35 @@ Created on Sat Nov  9 16:41:11 2019
 @author: marti
 
 """
-import getpass
+
 import os
 from _datetime import datetime
+import numpy as np
+
+def spielfeld_to_numpy(spielfeld):
+    
+    spalte = 0
+    np_spielfeld = np.zeros((1,7,6), dtype=np.uint8)
+    for arr_spalte in spielfeld:
+        zeile = 0
+        for wert in arr_spalte:
+            np_spielfeld[0][spalte][zeile] = wert
+            zeile = zeile + 1
+        spalte = spalte + 1
+   # print(np_spielfeld)    
+    return np_spielfeld
 
 #erstellt den Ordner fuer die doku nur wenn der ordner noch nicht existiert
-def ertelleDirectory():
-    user = getpass.getuser()
-    directory = 'C:\\Users\\' + user + '\\OneDrive\\Desktop\\4inarowDoku'
+def ertelleDirectory(pfad, user):
+    directory = pfad
     if not os.path.isdir(directory):
         os.mkdir(directory)
+    return directory
+
+def erstelleDateiname(user):
     date = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
-    path = directory + '\\4inarow_' + user + '_' + date + '.csv'
-    
-    return path
+    dateiname = '4inarow_' + user + '_' + date + '.csv'
+    return dateiname
 
 #zeichnet das spielfald auf der konsole
 def paintSpielfeld(spielfeld):
@@ -33,27 +48,27 @@ def paintSpielfeld(spielfeld):
     #wenn auf der position ein stein liegt, fuege ihn dem string hinzu, ansonsten setzt ein leerzeichen
     for spalte in spielfeld:
         if len(spalte) >= 1:
-            str1 = str1 + (' ' + str(spalte[0]) + ' ') if spalte[0] > 0 else '   '
+            str1 = str1 + (' ' + str(spalte[0]) + ' ') if spalte[0] > 0 else str1 + '   '
         else:
             str1 = str1 + '   '
         if len(spalte) >= 2:
-            str2 = str2 + (' ' + str(spalte[1]) + ' ') if spalte[1] > 0 else '   '
+            str2 = str2 + (' ' + str(spalte[1]) + ' ') if spalte[1] > 0 else str2 +  '   '
         else:
             str2 = str2 + '   '
         if len(spalte) >= 3:
-            str3 = str3 + (' ' + str(spalte[2]) + ' ') if spalte[2] > 0 else '   '
+            str3 = str3 + (' ' + str(spalte[2]) + ' ') if spalte[2] > 0 else str3 +  '   '
         else:
             str3 = str3 + '   '
         if len(spalte) >= 4:
-            str4 = str4 + (' ' + str(spalte[3]) + ' ') if spalte[3] > 0 else '   '
+            str4 = str4 + (' ' + str(spalte[3]) + ' ') if spalte[3] > 0 else str4 +  '   '
         else:
             str4 = str4 + '   '
         if len(spalte) >= 5:
-            str5 = str5 + (' ' + str(spalte[4]) + ' ') if spalte[4] > 0 else '   '
+            str5 = str5 + (' ' + str(spalte[4]) + ' ') if spalte[4] > 0 else str5 +  '   '
         else:
             str5 = str5 + '   '
         if len(spalte) >= 6:
-            str6 = str6 + (' ' + str(spalte[5]) + ' ') if spalte[5] > 0 else '   '
+            str6 = str6 + (' ' + str(spalte[5]) + ' ') if spalte[5] > 0 else str6 +  '   '
         else:
             str6 = str6 + '   '
     #zeichne alle strings (zeilen) von der obersten bis zur untersten
@@ -71,7 +86,7 @@ def paintSpielfeld(spielfeld):
 #um zu ziehen wird in die liste (spalte, in der der player gezogen hat, ein element hinzugefuegt
 #1 steht fuer player1, 2 fuer player2
 def ziehen(spielfeld, spalte, player1):
-    spielfeld[spalte - 1] = spielfeld[spalte - 1] + [1 if player1 else 2]
+    spielfeld[spalte] = spielfeld[spalte] + [1 if player1 else 2]
     return spielfeld
 
 
@@ -202,3 +217,19 @@ def spielfeld_auffuellen(spielfeld):
                 [s[5][5],s[6][4]],
                 [s[6][5]]]
     return  [vertical, horizontal, diagonal, reverseDiagonal]
+
+def pruefeZug(spielfeld, spalte, ausgabe):
+    #es gibt nur 7 spalten, waehlt der spieler eine groessere nummer ist der zug ungueltig
+    if spalte <= 7:
+        #in jeder spalte haben nur 6 steine platz
+        #will der spieler noch einen stein auf eine volle spalte setzten, ist der zug ungueltig
+        if len(spielfeld[spalte]) < 6:
+            return True
+        else:
+            if ausgabe:
+                print('---ungueltiger Zug---')
+            return False
+    else:
+        if ausgabe:
+            print('---ungueltiger Zug---')
+        return False

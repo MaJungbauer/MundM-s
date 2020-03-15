@@ -1,18 +1,50 @@
 # -*- coding: utf-8 -*-
 """
+Created on Sun Jan 19 10:13:27 2020
+
+@author: marti
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Dec 15 16:56:22 2019
 
 @author: marti
 """
 
-import tensorflow as tf
+#import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pandas as pd
-import csv
-from ast import literal_eval
-import functions
+import functions as fc
+import random as rd
+import documentation
+#import functions
+
+
+#neuronales Netz anlernen
+def lernNN(pfad):
+    data = documentation.datenSammeln(pfad)
+    model = fourinARowNN(data)
+    return model
+
+#frage den player in welche spalte er werfen will und lese seine eingabe ein
+def zugAnfrage(spielfeld, model):
+    zug = np.argmax(model.predict(fc.spielfeld_to_numpy(spielfeld)/7.0))
+    return zug
+
+def zug_bestimmen(spielfeld, model):
+    zug = zugAnfrage(spielfeld, model)
+    #pruefung, ob der zug moeglich ist, ist noch platz in der spalte oder gibt es die spalte
+    #der spieler kann so lange ziehen, bis eer einen gueltigen zug macht
+    while not fc.pruefeZug(spielfeld, zug, False):
+        print('NN gibt ungueltigen Zug aus!')
+        zug = rd.randint(0,6)
+        
+    return zug
+
+
 
 def str_to_Numpy(feld):
     feld = feld.replace(', ', '')
@@ -25,11 +57,12 @@ def str_to_Numpy(feld):
     
 
 
-if __name__ == '__main__':
+def fourinARowNN(data_source):
     
-    data = pd.read_csv('C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020118.csv',
-                       sep=';')
-    data = data[data.player1 == data.sieger]
+    #'C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020118.csv'
+    #data = pd.read_csv(data_source,
+     #                  sep=';')
+    data = data_source[data_source.player1 == data_source.sieger]
     #data = data.reindex(range(0,len(data)))
     
     data_zuege = np.zeros(len(data), dtype=np.uint8)
@@ -61,14 +94,16 @@ if __name__ == '__main__':
     model = keras.Sequential([
             keras.layers.Flatten(input_shape=(7, 6)),
             keras.layers.Dense(128, activation='relu'),
-            keras.layers.Dense(8, activation='softmax')
+            keras.layers.Dense(7, activation='softmax')
             ])
     
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     
     model.fit(train_spielfeld, train_zuege, epochs=10)
     
-    prediction = model.predict(test_spielfeld)
+    return model
+    
+    #prediction = model.predict(test_spielfeld)
     '''
     for i in range(5):
         plt.grid(False)
@@ -76,6 +111,7 @@ if __name__ == '__main__':
         plt.xlabel('Actual: ' + class_names[test_labels[i]])
         plt.title('Prediction ' + class_names[np.argmax(prediction[i])])
         plt.show()
+    '''
     '''
     for i in range(20):
         #print(data_spielfeld[i])
@@ -86,6 +122,7 @@ if __name__ == '__main__':
         print('Zug: Spalte ' + str(data_zuege[i]))
         print('Netz: ' + class_names[np.argmax(prediction[i])])
         print('---------------------')
+    '''
         
     
     

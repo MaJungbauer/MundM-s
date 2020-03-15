@@ -5,8 +5,8 @@ Created on Mon Nov 11 20:35:13 2019
 @author: marti
 """
 
-import functions
-import player
+import functions as fc
+#import player
 import random
 import copy
 import pandas as pd
@@ -33,9 +33,9 @@ def level1(spielfeld, player1):
         return lastChanceZug['zug1'][0]
     else:
         #ansonsten waehlt er einen zufaelligen zug, der moeglich ist
-        zug = random.randint(1,7)
-        while not player.pruefeZug(spielfeld, zug, False):
-            zug = random.randint(1,7)
+        zug = random.randint(0,6)
+        while not fc.pruefeZug(spielfeld, zug, False):
+            zug = random.randint(0,6)
         return zug
     
     
@@ -65,9 +65,9 @@ def level2(spielfeld, player1):
             return guteLoseInTwoZuege['zug2'].index[0]
 
     #ansonsten waehlt er einen zufaelligen zug, der moeglich ist
-    zug = random.randint(1,7)
-    while not player.pruefeZug(spielfeld, zug, False):
-        zug = random.randint(1,7)
+    zug = random.randint(0,6)
+    while not fc.pruefeZug(spielfeld, zug, False):
+        zug = random.randint(0,6)
     return zug
     
     
@@ -77,15 +77,15 @@ def level2(spielfeld, player1):
 def winInOne(spielfeld, player1):
     zuege = pd.DataFrame(columns=['zug1'])
     #laufe durch alle spalten
-    for spalte in range(1,8):
+    for spalte in range(0,6):
         #das spielfeld muss kopiert werden, da nur ein zug simuliert wird, es wird nicht in Wirklichkeit gezogen
         s = copy.copy(spielfeld)
         zug = spalte
         #wenn moeglich, dann in diese spalte werfen
-        if player.pruefeZug(s, zug, False):
-            s = functions.ziehen(s, zug, player1)
+        if fc.pruefeZug(s, zug, False):
+            s = fc.ziehen(s, zug, player1)
             #pruefe, ob es einen gewinner gibt
-            if functions.pruefeGewinner(s, player1)[0]:
+            if fc.pruefeGewinner(s, player1)[0]:
                 dfZug = pd.DataFrame(columns=['zug1'])
                 dfZug['zug1'] = [zug]
                 
@@ -117,14 +117,14 @@ def winInOne(spielfeld, player1):
 def winInTwo(spielfeld, player1):
     zuege = pd.DataFrame(columns=['zug1', 'zug2'])
     #laufe durch alle spalten
-    for spalte in range(1,8):
+    for spalte in range(0,6):
         #das spielfeld muss kopiert werden, da nur ein zug simuliert wird, es wird nicht in Wirklichkeit gezogen
         s1 = copy.copy(spielfeld)
         zug1 = spalte
         #wenn moeglich, dann in diese spalte werfen
-        if player.pruefeZug(s1, zug1, False):
+        if fc.pruefeZug(s1, zug1, False):
             #ziehe in jede moegliche spalte und pruefe WInInOne
-            s1 = functions.ziehen(s1, zug1, player1)
+            s1 = fc.ziehen(s1, zug1, player1)
             winnerZug = winInOne(s1, player1)
             #wenn dann WininOne moeglich ist, schreibe die Kombination in einen DataFrame
             for index, z in winnerZug.iterrows():  

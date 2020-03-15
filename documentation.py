@@ -10,14 +10,27 @@ import copy
 
 #fuer das spiel wird ein neuer dataframe als dokument angelegt
 def doc_anlegen():
-    doc = pd.DataFrame(columns=['spielID', 'zugNummer', 'player1', 'spielfeld', 'zug', 'sieger'])
+    doc = pd.DataFrame(columns=['spielID', 'zugNummer', 'player1', 'playerTyp', 'spalte_1'
+                                , 'spalte_2'
+                                , 'spalte_3'
+                                , 'spalte_4'
+                                , 'spalte_5'
+                                , 'spalte_6'
+                                , 'spalte_7', 'zug', 'sieger'])
     return doc
 
 #zug wird an das Spiel-Dokument gehaengt
-def zugDokumentieren(doc, spielID, zugNummer, zug, spielfeld, player1):
+def zugDokumentieren(doc, spielID, zugNummer, zug, spielfeld, player1, playerTyp):
     #schreibe den Datensatz in dictionary
     s = copy.copy(spielfeld)
-    data = {'spielID': spielID, 'zugNummer': zugNummer, 'zug': zug, 'spielfeld': s,  'player1': player1}
+    data = {'spielID': spielID, 'zugNummer': zugNummer, 'zug': zug, 
+            'spalte_1': s[0],
+            'spalte_2': s[1],
+            'spalte_3': s[2],
+            'spalte_4': s[3],
+            'spalte_5': s[4],
+            'spalte_6': s[5],
+            'spalte_7': s[6],'player1': player1, 'playerTyp': playerTyp}
     #Datensatz an DataFrame haengen
     doc = doc.append(data, ignore_index=True)
     
@@ -32,10 +45,20 @@ def siegerDokumentieren(doc, sieger):
     return doc
 
 #das Spiel-Dokument in eine csv schreiben
-def spielDokumentieren(doc, pfad):
+def spielDokumentieren(doc, pfad, dateiname):
     #wenn es schon eine.csv datei gibt, haenge den datensatz an diese datei
     if os.path.exists(pfad):
-        doc.to_csv(path_or_buf=pfad,index=False, sep=';', header=False, mode='a')
+        doc.to_csv(path_or_buf=pfad + '\\' + dateiname,index=False, sep=';', header=False, mode='a')
     #wenn es noch keine .csv datei gibt, erstelle eine neue
     else:
-        doc.to_csv(path_or_buf=pfad,index=False, sep=';', header=True, mode='w')
+        doc.to_csv(path_or_buf=pfad + '\\' + dateiname,index=False, sep=';', header=True, mode='w')
+        
+def datenSammeln(pfad):
+    data = pd.DataFrame()
+    csvList  = os.listdir(pfad)
+    for csv in csvList:
+        dfCsv = pd.read_csv(pfad + '\\' + csv, sep=';')
+        data = data.append(dfCsv, ignore_index=True)
+    
+    return data
+        

@@ -27,7 +27,7 @@ def str_to_Numpy(feld):
 
 if __name__ == '__main__':
     
-    data = pd.read_csv('C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020118.csv',
+    data = pd.read_csv('C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020119.csv',
                        sep=';')
     data = data[data.player1 == data.sieger]
     #data = data.reindex(range(0,len(data)))
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     model = keras.Sequential([
             keras.layers.Flatten(input_shape=(7, 6)),
             keras.layers.Dense(128, activation='relu'),
-            keras.layers.Dense(8, activation='softmax')
+            keras.layers.Dense(7, activation='softmax')
             ])
     
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
