@@ -19,7 +19,7 @@ if __name__ == '__main__':
     (train_images, train_lables), (test_images, test_labels) = data.load_data()
     
     class_names = ['T-shirt/Top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 
-                   'Shirt', 'Sneaker', 'Bag', 'ANkle boot']
+                   'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
     
     train_images = train_images/255.0
     test_images = test_images/255.0

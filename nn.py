@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 """
+Created on Sun Jan 19 10:13:27 2020
+
+@author: marti
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Dec 15 16:56:22 2019
 
 @author: marti
 """
 
-import tensorflow as tf
+#import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pandas as pd
-import csv
-from ast import literal_eval
-import functions
+#import functions
 
 def str_to_Numpy(feld):
     feld = feld.replace(', ', '')
@@ -25,9 +30,10 @@ def str_to_Numpy(feld):
     
 
 
-if __name__ == '__main__':
+def fourinARowNN(data_source):
     
-    data = pd.read_csv('C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020118.csv',
+    #'C:\\Users\\marti\\OneDrive\\Desktop\\4inarowDoku\\4inarow_marti_2020118.csv'
+    data = pd.read_csv(data_source,
                        sep=';')
     data = data[data.player1 == data.sieger]
     #data = data.reindex(range(0,len(data)))
@@ -68,7 +74,7 @@ if __name__ == '__main__':
     
     model.fit(train_spielfeld, train_zuege, epochs=10)
     
-    prediction = model.predict(test_spielfeld)
+    #prediction = model.predict(test_spielfeld)
     '''
     for i in range(5):
         plt.grid(False)
@@ -76,6 +82,7 @@ if __name__ == '__main__':
         plt.xlabel('Actual: ' + class_names[test_labels[i]])
         plt.title('Prediction ' + class_names[np.argmax(prediction[i])])
         plt.show()
+    '''
     '''
     for i in range(20):
         #print(data_spielfeld[i])
@@ -86,6 +93,7 @@ if __name__ == '__main__':
         print('Zug: Spalte ' + str(data_zuege[i]))
         print('Netz: ' + class_names[np.argmax(prediction[i])])
         print('---------------------')
+    '''
         
     
     
