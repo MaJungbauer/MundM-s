@@ -24,8 +24,8 @@ import documentation
 
 
 #neuronales Netz anlernen
-def lernNN(pfad):
-    data = documentation.datenSammeln(pfad)
+def lernNN(data):
+    
     model = fourinARowNN(data)
     return model
 
@@ -39,7 +39,7 @@ def zug_bestimmen(spielfeld, model):
     #pruefung, ob der zug moeglich ist, ist noch platz in der spalte oder gibt es die spalte
     #der spieler kann so lange ziehen, bis eer einen gueltigen zug macht
     while not fc.pruefeZug(spielfeld, zug, False):
-        print('NN gibt ungueltigen Zug aus!')
+        #print('NN gibt ungueltigen Zug aus!')
         zug = rd.randint(0,6)
         
     return zug
