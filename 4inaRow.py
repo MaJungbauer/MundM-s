@@ -12,6 +12,7 @@ import computer
 import documentation
 import neuralNetwork
 import getpass
+import statistik
 
 from tensorflow import keras
 import numpy as np
@@ -25,7 +26,8 @@ if __name__ == '__main__':
     pfad = functions.ertelleDirectory('C:\\Users\\' + user + '\\OneDrive\\Desktop\\4inarowDoku', user)
     dateiname = functions.erstelleDateiname(user)
     #lerne Neurales Netz zum erten mal an
-    model = neuralNetwork.lernNN(pfad)
+    data = documentation.datenSammeln(pfad)
+    model = neuralNetwork.lernNN(data)
     #Es kann gewährt werden, ob player1 oder player2 manuell eingegeben wird, oder ob der der Computer spielen soll
     p1 = input('Wer ist Spieler 1? (1-->Computer, 2-->Player, 3--> Neuronales Netz)  ')
     if int(p1) == 1:
@@ -39,10 +41,13 @@ if __name__ == '__main__':
     
     for spielNr in range(0, int(anzahlSpiele)):
         #alle 100 Spiele wird das NN neu angelernt
-        if spielNr % 100 == 0:
-            model = neuralNetwork.lernNN(pfad)
+        if spielNr % 100 == 0 and spielNr > 1:
+            data = documentation.datenSammeln(pfad)
+            statistik.statistikAnalyse1(data, 100)
+            statistik.statistikAnalyse2(data, 5)
+            model = neuralNetwork.lernNN(data)
         #Datensaetze zaehlen
-        print('SpielNr: ' + str(spielNr))
+        #print('SpielNr: ' + str(spielNr))
         spielID = str(datetime.now())
         #spielfeld ist eine liste mit sieben einzelnen listen, jede fuer eine spalte
         #die spalten im spielfeld werden pro zug mit 1 oder 2 gefuellt
@@ -88,15 +93,16 @@ if __name__ == '__main__':
             gewinner = functions.pruefeGewinner(spielfeld, player1)
             #wenn es einen gewinner gibt, wird die Info ausgegeben, es erfolgen dann keine weiteren zuege
             if gewinner[0]:
-                print('---' + ('Player1' if gewinner[1] else 'Player2') + ' hat gewonnen---' )
+                #print('---' + ('Player1' if gewinner[1] else 'Player2') + ' hat gewonnen---' )
                 doc = documentation.siegerDokumentieren(doc, 1 if gewinner[1] else 2)
                 break
         #gibt es nach 42 zuegen keinen gewinner, ist das spielfeld voll und es ist unentschieden
         if not gewinner[0]:
-            print('---unentschieden---')
+            #print('---unentschieden---')
             doc = documentation.siegerDokumentieren(doc, 0)
         #Spiel dokumentieren
         documentation.spielDokumentieren(doc, pfad, dateiname)
+        #statistik.statPlot(spielNr)
         
         
         
